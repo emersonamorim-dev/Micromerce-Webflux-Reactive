@@ -91,9 +91,9 @@ public class ProductController {
         return Mono.just(ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(getProductUseCase.getAllProducts()
-                        .doOnNext(response -> log.debug("Product retrieved: {}", response))
-                        .doOnComplete(() -> log.debug("All products retrieved"))
-                        .doOnError(error -> log.error("Error getting products: {}", error.getMessage()))));
+                        .doOnNext(response -> log.debug("Produto recuperado: {}", response))
+                        .doOnComplete(() -> log.debug("Todos os produtos recuperados"))
+                        .doOnError(error -> log.error("Erro ao obter produtos: {}", error.getMessage()))));
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,17 +101,17 @@ public class ProductController {
         log.debug("Updating product with ID {}: {}", id, request);
         return getProductUseCase.updateProduct(id, request)
                 .map(response -> {
-                    log.debug("Product updated successfully: {}", response);
+                    log.debug("Produto atualizado com sucesso: {}", response);
                     return ResponseEntity.ok()
                             .contentType(MediaType.APPLICATION_JSON)
                             .body(response);
                 })
                 .onErrorResume(ProductNotFoundException.class, error -> {
-                    log.error("Product not found: {}", error.getMessage());
+                    log.error("Produto não encontrado: {}", error.getMessage());
                     return Mono.just(ResponseEntity.notFound().build());
                 })
                 .onErrorResume(error -> {
-                    log.error("Error updating product: {}", error.getMessage());
+                    log.error("Erro ao atualizar o produto: {}", error.getMessage());
                     return Mono.just(ResponseEntity
                             .status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .build());
@@ -123,9 +123,9 @@ public class ProductController {
         log.debug("Deleting product with ID: {}", id);
         return getProductUseCase.deleteProduct(id)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()))
-                .doOnSuccess(result -> log.debug("Product deleted successfully"))
+                .doOnSuccess(result -> log.debug("Produto excluído com sucesso"))
                 .onErrorResume(error -> {
-                    log.error("Error deleting product: {}", error.getMessage());
+                    log.error("Erro ao excluir produto: {}", error.getMessage());
                     return Mono.just(ResponseEntity
                             .status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .build());
