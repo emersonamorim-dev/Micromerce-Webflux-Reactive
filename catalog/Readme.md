@@ -81,7 +81,7 @@ docker-compose up --build
 ### Endpoints da API
 1. Cadastrar um produto:
 
-```
+```http
 POST http://localhost:8081/products
 Content-Type: application/json
 Authorization: Basic Auth:  admin admin
