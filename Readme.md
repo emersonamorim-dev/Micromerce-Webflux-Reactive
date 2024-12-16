@@ -1,6 +1,6 @@
-#### Micromerce Webflux Reactive - Java com Springboot e Webflux 💳 🚀 🌐
+### Micromerce Webflux Reactive - Java com Springboot e Webflux 💳 🚀 🌐
 
-O Micromerce Webflux Reactive é uma aplicação de microserviços desenvolvida para atender às crescentes demandas do comércio eletrônico moderno. Com o objetivo de proporcionar uma experiência de compra fluida e reativa, esta aplicação é composta por três microserviços principais: Cart, Catalog e Payment. Cada um desses serviços é projetado para operar de forma independente, permitindo escalabilidade e flexibilidade na gestão de recursos.
+O Micromerce Webflux Reactive é uma aplicação de microserviços desenvolvida para atender às crescentes demandas do comércio eletrônico moderno. Com o objetivo de proporcionar uma experiência de compra fluida e reativa, esta aplicação é composta por 3 Microserviços principais: Cart, Catalog e Payment. Cada um desses serviços é projetado para operar de forma independente, permitindo escalabilidade e flexibilidade na gestão de recursos.
 
 Utilizando tecnologias de ponta como Java 21, Spring Boot e Spring WebFlux, a aplicação é capaz de lidar com um grande volume de requisições simultâneas, garantindo desempenho e responsividade. O microserviço Cart gerencia as funcionalidades do carrinho de compras, utilizando MongoDB para armazenar dados de forma flexível. O Catalog é responsável pela gestão do catálogo de produtos, aproveitando as capacidades do PostgreSQL para garantir integridade e eficiência nas operações de banco de dados. Por fim, o Payment processa transações financeiras, utilizando MySQL para assegurar a confiabilidade e segurança dos dados.
 
