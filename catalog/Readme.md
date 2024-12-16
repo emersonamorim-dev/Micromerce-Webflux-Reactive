@@ -82,11 +82,11 @@ docker-compose up --build
 1. Cadastrar um produto:
 
 ```
-- POST http://localhost:8081/products
+POST http://localhost:8081/products
 Content-Type: application/json
 Authorization: Basic Auth:  admin admin
 
-- Requisição para criar um produto:
+Requisição para criar um produto:
 
 {
     "name": "Smartphone Samsung",
