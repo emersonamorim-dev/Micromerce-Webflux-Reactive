@@ -28,7 +28,7 @@ public class RefundProcessingClient {
 
     private Mono<RefundResponse> processRefund(PaymentRefundRequest request, String refundType) {
         return Mono.fromSupplier(() -> {
-            // Simular processamento com possível falha
+            // Simula processamento com possível falha
             if (Math.random() < 0.1) {
                 throw new RuntimeException("Erro simulado no processamento de reembolso");
             }
