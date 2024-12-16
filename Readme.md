@@ -8,7 +8,7 @@ Este projeto não apenas demonstra a aplicação de princípios de arquitetura d
 
 #### Vídeo Aplicação rodando:
 
-https://youtu.be/NslmY3fqyqY?feature=shared
+[Assista ao vídeo no YouTube](https://youtu.be/NslmY3fqyqY?feature=shared)
 
 
 #### Estrutura do Projeto
