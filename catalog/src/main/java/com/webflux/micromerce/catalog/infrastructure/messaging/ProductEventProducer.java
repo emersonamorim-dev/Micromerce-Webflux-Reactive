@@ -47,10 +47,10 @@ public class ProductEventProducer {
 
             return Mono.fromRunnable(this::ensureTopicExists)
                     .then(Mono.fromFuture(() -> kafkaTemplate.send(topicName, key, message).toCompletableFuture()))
-                    .doFirst(() -> log.debug("Sending product event to topic {}: {}", topicName, product))
-                    .doOnSuccess(result -> log.debug("Product event sent successfully to topic {} - Offset: {}", 
+                    .doFirst(() -> log.debug("Enviando evento de produto para tópico {}: {}", topicName, product))
+                    .doOnSuccess(result -> log.debug("Evento de produto enviado com sucesso para o tópico {} - Offset: {}", 
                             topicName, result.getRecordMetadata().offset()))
-                    .doOnError(error -> log.error("Failed to send product event to topic {}: {}", 
+                    .doOnError(error -> log.error("Falha ao enviar evento do produto para o tópico {}: {}", 
                             topicName, error.getMessage()))
                     .then();
         } catch (JsonProcessingException e) {
