@@ -128,11 +128,13 @@ Para acessar a documentação da API, navegue até a URL do Swagger fornecida. A
 #### Endpoints Disponíveis
 
 Home
+
 -GET /: Endpoint raiz que fornece informações gerais sobre a API.
 -GET /info: Obtém informações detalhadas sobre a API e endpoints disponíveis.
 -GET /api: Acesso às configurações para ativar o Windows.
 
 Payment
+
 - GET /api/v1/payments: Lista todos os pagamentos.
 - GET /api/v1/payments/{id}: Obtém um pagamento específico pelo ID.
 - GET /api/v1/payments/order/{orderId}: Obtém pagamentos por ID da encomenda.
