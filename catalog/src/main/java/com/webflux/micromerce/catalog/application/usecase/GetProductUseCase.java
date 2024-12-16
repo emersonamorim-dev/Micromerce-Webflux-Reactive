@@ -25,25 +25,25 @@ public class GetProductUseCase {
     public Mono<ProductResponse> getProductById(Long id) {
         log.debug("Getting product by ID: {}", id);
         return productRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found with ID: " + id)))
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Produto não encontrado com ID: " + id)))
                 .map(this::mapToResponse)
                 .doOnSuccess(response -> {
                     log.debug("Product found: {}", response);
                     productEventProducer.sendProductEvent(response).subscribe();
                 })
-                .doOnError(error -> log.error("Error getting product by ID {}: {}", id, error.getMessage()));
+                .doOnError(error -> log.error("Erro ao obter o produto por ID {}: {}", id, error.getMessage()));
     }
 
     public Mono<ProductResponse> getProductByName(String name) {
         log.debug("Getting product by name: {}", name);
         return productRepository.findByName(name)
-                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found with name: " + name)))
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Produto não encontrado com nome: " + name)))
                 .map(this::mapToResponse)
                 .doOnSuccess(response -> {
                     log.debug("Product found: {}", response);
                     productEventProducer.sendProductEvent(response).subscribe();
                 })
-                .doOnError(error -> log.error("Error getting product by name {}: {}", name, error.getMessage()));
+                .doOnError(error -> log.error("Erro ao obter produto pelo nome {}: {}", name, error.getMessage()));
     }
 
     public Flux<ProductResponse> getAllProducts() {
@@ -54,14 +54,14 @@ public class GetProductUseCase {
                     log.debug("Product found: {}", response);
                     productEventProducer.sendProductEvent(response).subscribe();
                 })
-                .doOnComplete(() -> log.debug("Finished getting all products"))
-                .doOnError(error -> log.error("Error getting all products: {}", error.getMessage()));
+                .doOnComplete(() -> log.debug("Terminou de receber todos os produtos"))
+                .doOnError(error -> log.error("Erro ao obter todos os produtos: {}", error.getMessage()));
     }
 
     public Mono<ProductResponse> updateProduct(Long id, ProductRequest request) {
         log.debug("Updating product with ID {}: {}", id, request);
         return productRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found with ID: " + id)))
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Produto não encontrado com ID: " + id)))
                 .flatMap(existingProduct -> {
                     existingProduct.setName(request.getName());
                     existingProduct.setPrice(request.getPrice());
@@ -73,13 +73,13 @@ public class GetProductUseCase {
                     log.debug("Product updated: {}", response);
                     productEventProducer.sendProductEvent(response).subscribe();
                 })
-                .doOnError(error -> log.error("Error updating product with ID {}: {}", id, error.getMessage()));
+                .doOnError(error -> log.error("Erro ao atualizar produto com ID {}: {}", id, error.getMessage()));
     }
 
     public Mono<Void> deleteProduct(Long id) {
         log.debug("Deleting product with ID: {}", id);
         return productRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found with ID: " + id)))
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Produto não encontrado com ID: " + id)))
                 .flatMap(product -> {
                     ProductResponse response = mapToResponse(product);
                     return productRepository.delete(product)
