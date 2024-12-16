@@ -121,22 +121,25 @@ Para acessar a documentação da API, navegue até a URL do Swagger fornecida. A
 
 - Descrições dos Endpoints: Cada endpoint é descrito com detalhes sobre sua funcionalidade.
 
-Métodos HTTP: Informações sobre os métodos HTTP suportados (GET, POST, etc.).
-Parâmetros: Lista de parâmetros necessários para cada endpoint.
-Exemplos de Requisições e Respostas: Exemplos de como estruturar as requisições e como serão as respostas esperadas.
-Endpoints Disponíveis
+- Métodos HTTP: Informações sobre os métodos HTTP suportados (GET, POST, etc.).
+- Parâmetros: Lista de parâmetros necessários para cada endpoint.
+- Exemplos de Requisições e Respostas: Exemplos de como estruturar as requisições e como serão as respostas esperadas.
+
+#### Endpoints Disponíveis
+
 Home
-GET /: Endpoint raiz que fornece informações gerais sobre a API.
-GET /info: Obtém informações detalhadas sobre a API e endpoints disponíveis.
-GET /api: Acesso às configurações para ativar o Windows.
+-GET /: Endpoint raiz que fornece informações gerais sobre a API.
+-GET /info: Obtém informações detalhadas sobre a API e endpoints disponíveis.
+-GET /api: Acesso às configurações para ativar o Windows.
+
 Payment
-GET /api/v1/payments: Lista todos os pagamentos.
-GET /api/v1/payments/{id}: Obtém um pagamento específico pelo ID.
-GET /api/v1/payments/order/{orderId}: Obtém pagamentos por ID da encomenda.
-GET /api/v1/payments/customer/{customerId}: Obtém pagamentos por ID do cliente.
-POST /api/v1/payments/{id}/refund: Realiza o reembolso de um pagamento.
-POST /api/v1/payments/{id}/cancel: Cancela um pagamento.
-POST /api/v1/payments: Processa um novo pagamento.
+- GET /api/v1/payments: Lista todos os pagamentos.
+- GET /api/v1/payments/{id}: Obtém um pagamento específico pelo ID.
+- GET /api/v1/payments/order/{orderId}: Obtém pagamentos por ID da encomenda.
+- GET /api/v1/payments/customer/{customerId}: Obtém pagamentos por ID do cliente.
+- POST /api/v1/payments/{id}/refund: Realiza o reembolso de um pagamento.
+- POST /api/v1/payments/{id}/cancel: Cancela um pagamento.
+- POST /api/v1/payments: Processa um novo pagamento.
 
 #### Autenticação
 Para acessar endpoints que requerem autenticação, utilize o botão "Authorize" na interface do Swagger e insira suas credenciais conforme necessário.
