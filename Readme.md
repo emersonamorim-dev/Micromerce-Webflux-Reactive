@@ -77,7 +77,7 @@ O microserviço Catalog gerencia o catálogo de produtos disponíveis para os us
 3. Microserviço Payment
 O microserviço Payment é responsável por processar pagamentos e gerenciar transações financeiras. Ele utiliza MySQL como banco de dados relacional, garantindo segurança e confiabilidade nas operações financeiras.
 
-Padrões e Princípios:
+#### Padrões e Princípios:
 
 - Command Query Responsibility Segregation (CQRS): Separa as operações de leitura e escrita, permitindo otimizações específicas para cada tipo de operação.
 - Event Sourcing: Armazena o estado do sistema como uma sequência de eventos, permitindo a reconstrução do estado atual a partir do histórico.
