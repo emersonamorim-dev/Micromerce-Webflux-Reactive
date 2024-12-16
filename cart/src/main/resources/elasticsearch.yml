@@ -1,0 +1,46 @@
+cluster.name: "micromerce-cluster"
+node.name: "micromerce-node-1"
+network.host: 0.0.0.0
+
+# Security settings
+xpack.security.enabled: true
+xpack.license.self_generated.type: basic
+
+# Encryption keys (use strong random values in production)
+xpack.security.encryptionKey: "a7c082f9-5b35-45e3-8af7-b1980d987c89"
+xpack.reporting.encryptionKey: "95d7f94b-6cea-4ae8-8d38-e29a9e72f363"
+xpack.encryptedSavedObjects.encryptionKey: "d1a66b9f-c23e-4f65-b668-a9d42c9c9747"
+
+# Authentication configuration
+xpack.security.authc:
+  anonymous:
+    username: anonymous_user
+    roles: anonymous_role
+    authz_exception: false
+  realms:
+    native:
+      native1:
+        order: 0
+
+# Session configuration
+xpack.security.session:
+  idleTimeout: "1h"  # Session timeout after 1 hour of inactivity
+  lifespan: "24h"    # Maximum session duration of 24 hours
+
+# Saved objects encryption key rotation
+xpack.encryptedSavedObjects.keyRotation:
+  decryptionOnlyKeys: []  # Add old keys here when rotating
+
+# Other security settings
+xpack.security.transport.ssl.enabled: true
+xpack.security.http.ssl.enabled: false  # Set to true if you want HTTPS
+
+# Memory settings
+bootstrap.memory_lock: true
+
+# Network settings
+http.port: 9200
+transport.port: 9300
+
+# Discovery settings
+discovery.type: single-node

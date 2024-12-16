@@ -1,0 +1,70 @@
+server:
+  port: 8082
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/cart_db
+      database: cart_db
+      auto-index-creation: true
+      uuid-representation: standard
+      repositories:
+        enabled: true
+      connection-pool:
+        max-size: 20
+        min-size: 5
+        max-wait-time: 3000
+        max-idle-time: 30000
+    redis:
+      host: redis
+      port: 6379
+      timeout: 2000
+    elasticsearch:
+      uris: http://elasticsearch:9200
+      username: elastic
+      password: changeme
+      connection-timeout: 5s
+      socket-timeout: 30s
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      properties:
+        enable.idempotence: true
+    consumer:
+      group-id: cart-service-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+      properties:
+        ack-mode: MANUAL
+    topic:
+      cart: cart-events
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.webflux.micromerce: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    org.springframework.kafka: DEBUG

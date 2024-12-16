@@ -1,0 +1,45 @@
+server:
+  port: 8082
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/cart_db
+      database: cart_db
+      auto-index-creation: true
+      uuid-representation: standard
+      repositories:
+        enabled: true
+      connection-pool:
+        max-size: 20
+        min-size: 5
+        max-wait-time: 3000
+        max-idle-time: 30000
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
+    com.webflux.micromerce: DEBUG
+    org.springframework.kafka: INFO

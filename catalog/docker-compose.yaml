@@ -1,0 +1,119 @@
+version: '3.9'
+
+services:
+  catalog-service:
+    build: .
+    container_name: catalog-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/catalogDB
+      SPRING_R2DBC_USERNAME: postgres
+      SPRING_R2DBC_PASSWORD: 180281
+      SPRING_REDIS_HOST: redis
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    dns:
+      - 8.8.8.8
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+      - elasticsearch
+    networks:
+      - webflux_network
+
+  redis:
+    image: redis:7.0
+    container_name: redis-cache-19
+    ports:
+      - "6382:6379"
+    networks:
+      - webflux_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    command: ["redis-server", "--appendonly", "yes"]
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka-19
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9094:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - webflux_network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper-19
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2183:2181"
+    networks:
+      - webflux_network
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 180281
+      POSTGRES_DB: catalogDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - webflux_network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: elasticsearch-19
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+    ports:
+      - "9202:9200"
+    networks:
+      - webflux_network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.0
+    container_name: kibana-19
+    ports:
+      - "5603:5601"
+    networks:
+      - webflux_network
+    depends_on:
+      - elasticsearch
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop-19
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+    ports:
+      - "9003:9000"
+    depends_on:
+      - kafka
+    networks:
+      - webflux_network
+
+networks:
+  webflux_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,45 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: catalog-service
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/catalog
+    username: postgres
+    password: postgres
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        enable.idempotence: true
+        acks: all
+        retries: 3
+        max.in.flight.requests.per.connection: 5
+    topics:
+      product-events: product-events
+  redis:
+    host: localhost
+    port: 6379
+  codec:
+    max-in-memory-size: 10MB
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+      FAIL_ON_EMPTY_BEANS: false
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+    default-property-inclusion: non_null
+    mapper:
+      DEFAULT_VIEW_INCLUSION: true
+    property-naming-strategy: SNAKE_CASE
+
+logging:
+  level:
+    com.webflux.micromerce.catalog: DEBUG
+    org.springframework.r2dbc: DEBUG
+    org.springframework.web: DEBUG
+    reactor.netty.http.client: DEBUG
+    org.apache.kafka: WARN

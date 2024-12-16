@@ -1,0 +1,104 @@
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
+  application:
+    name: cart-service
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_USERNAME:admin}:${MONGODB_PASSWORD:admin}@${MONGODB_HOST:localhost}:${MONGODB_PORT:27017}/cartdb?authSource=admin
+      database: cartdb
+      auto-index-creation: true
+      uuid-representation: standard
+      repositories:
+        type: reactive
+      connection-pool:
+        max-size: 20
+        min-size: 5
+        max-wait-time: 120000
+        max-connection-life-time: 60000
+        max-connection-idle-time: 60000
+      socket:
+        connect-timeout: 5000
+        read-timeout: 10000
+        receive-buffer-size: 16384
+        send-buffer-size: 16384
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000
+      database: 0
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: -1ms
+      repositories:
+        enabled: false
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS:http://elasticsearch:9200}
+    username: ${ELASTICSEARCH_USERNAME:elastic}
+    password: ${ELASTICSEARCH_PASSWORD:changeme}
+    connection-timeout: 5s
+    socket-timeout: 30s
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    topics:
+      cart-events: cart-events
+    producer:
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      properties:
+        spring.json.trusted.packages: "com.webflux.micromerce.cart.application.dto.response"
+        spring.json.type.mapping: "cartResponse:com.webflux.micromerce.cart.application.dto.response.CartResponse"
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+
+server:
+  port: ${SERVER_PORT:8082}
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    metrics:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.webflux.micromerce: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    org.springframework.data.elasticsearch: DEBUG
+    org.springframework.kafka: DEBUG
+
+cache:
+  metrics:
+    collection:
+      rate: 60000 # Coleta métricas a cada 60 segundos
+
+spring.main.allow-bean-definition-overriding: true

@@ -1,0 +1,110 @@
+spring:
+  application:
+    name: payment-service
+  data:
+    mongodb:
+      enabled: false
+    r2dbc:
+      url: r2dbc:mysql://${DB_HOST:mysql}:${DB_PORT:3306}/${DB_NAME:payment_db}?useSSL=false&serverTimezone=UTC
+      username: ${DB_USERNAME:root}
+      password: ${DB_PASSWORD:root}
+      pool:
+        initial-size: 5
+        max-size: 20
+        max-idle-time: 30m
+        validation-query: SELECT 1
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
+    mapper:
+      accept-case-insensitive-enums: true
+  redis:
+    host: ${SPRING_REDIS_HOST:redis}
+    port: 6379
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP_ID:payment-docker-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    admin:
+      properties:
+        bootstrap.servers: kafka:9092
+        retries: 3
+        retry.backoff.ms: 1000
+    topic:
+      payment: payment-topic
+    listener:
+      ack-mode: MANUAL
+      type: BATCH
+      concurrency: 3
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID:local}
+        secret-key: ${AWS_SECRET_ACCESS_KEY:local}
+      region:
+        static: ${AWS_REGION:us-east-1}
+        auto: false
+      endpoint:
+        uri: ${DYNAMODB_ENDPOINT:http://dynamodb-local:8000}
+  dynamodb:
+    table-name: paymentDB
+    read-capacity: 10
+    write-capacity: 10
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS:http://elasticsearch:9200}
+    username: ${ELASTICSEARCH_USERNAME:elastic}
+    password: ${ELASTICSEARCH_PASSWORD:changeme}
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: ["health", "info", "metrics"]
+    endpoint:
+      health:
+        show-details: always
+        probes:
+          enabled: true
+        group:
+          readiness:
+            include: db,kafka
+          liveness:
+            include: ping
+    health:
+      dynamodb:
+        enabled: true
+      kafka:
+        enabled: true
+  logging:
+    level:
+      root: INFO
+      com.webflux.micromerce: DEBUG
+      org.springframework.kafka: INFO
+      org.springframework.r2dbc: DEBUG
+      io.r2dbc.mysql: DEBUG
+      com.webflux.micromerce.payment: DEBUG
+      org.apache.kafka: INFO
+      software.amazon.awssdk: INFO
+    file:
+      path: ${logging.file.path:/logs}
+      name: ${logging.file.path:/logs}/payment-service.log
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      platform: mysql
+
+server:
+  port: ${SERVER_PORT:8083}

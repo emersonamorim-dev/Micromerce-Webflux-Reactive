@@ -1,0 +1,141 @@
+spring:
+  application:
+    name: payment-service
+  profiles:
+    active: local
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: payment-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        group.instance.id: payment-instance-1
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      properties:
+        spring.json.add.type.headers: false
+        spring.json.trusted.packages: "*"
+        retry.backoff.ms: 1000
+        linger.ms: 100
+        compression.type: gzip
+        max.request.size: 20971520
+    properties:
+      session.timeout.ms: 45000
+      max.poll.interval.ms: 300000
+      reconnect.backoff.ms: 1000
+      reconnect.backoff.max.ms: 10000
+      spring.json.trusted.packages: "*"
+      spring.json.value.default.type: com.webflux.micromerce.payment.domain.model.Payment
+      spring.json.use.type.headers: false
+      fetch.min.bytes: 1
+      fetch.max.wait.ms: 500
+      max.partition.fetch.bytes: 1048576
+      heartbeat.interval.ms: 10000
+      max.poll.records: 100
+    topic:
+      payment: payment-topic
+    listener:
+      ack-mode: MANUAL
+      type: BATCH
+      concurrency: 3
+    admin:
+      auto-create: true
+      properties:
+        cleanup.policy: compact
+        min.insync.replicas: 1
+
+  r2dbc:
+    url: r2dbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:payment_db}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30m
+      validation-query: SELECT 1
+
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:redis}
+      port: ${SPRING_REDIS_PORT:6379}
+      timeout: 2000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: 1000
+        shutdown-timeout: 100ms
+    elasticsearch:
+      repositories:
+        enabled: true
+      client:
+        reactive:
+          connection-timeout: 5s
+          socket-timeout: 5s
+          max-in-memory-size: 100MB
+    r2dbc:
+      repositories:
+        enabled: true
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      platform: mysql
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: true
+    default-property-inclusion: non_null
+
+  main:
+    allow-bean-definition-overriding: true
+    lazy-initialization: true
+    web-application-type: reactive
+    allow-circular-references: true
+
+  webflux:
+    base-path: /
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      exposed-headers: "*"
+      allow-credentials: true
+      max-age: 3600
+    static-path-pattern: /**
+  codec:
+    max-in-memory-size: 10MB
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    enabled: true
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: Payment API
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: method
+    tags-sorter: alpha
+
+logging:
+  level:
+    root: INFO
+    com.webflux.micromerce: DEBUG
+    org.springframework.data.r2dbc: DEBUG
+    org.springframework.data.redis: DEBUG
+    org.springframework.data.elasticsearch: DEBUG
+    io.r2dbc.mysql: DEBUG
+    org.springframework.kafka: INFO

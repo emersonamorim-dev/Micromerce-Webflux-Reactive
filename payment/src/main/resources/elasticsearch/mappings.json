@@ -1,0 +1,49 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "transactionId": {
+      "type": "keyword"
+    },
+    "orderId": {
+      "type": "keyword"
+    },
+    "customerId": {
+      "type": "keyword"
+    },
+    "amount": {
+      "type": "double"
+    },
+    "currency": {
+      "type": "keyword"
+    },
+    "status": {
+      "type": "keyword"
+    },
+    "gateway": {
+      "type": "keyword"
+    },
+    "description": {
+      "type": "text",
+      "analyzer": "payment_analyzer"
+    },
+    "createdAt": {
+      "type": "date"
+    },
+    "updatedAt": {
+      "type": "date"
+    },
+    "paymentDetails": {
+      "properties": {
+        "paymentMethod": {
+          "type": "keyword"
+        },
+        "metadata": {
+          "type": "object",
+          "enabled": false
+        }
+      }
+    }
+  }
+}
