@@ -53,7 +53,7 @@ public class AddItemToCartUseCase {
     private Mono<Cart> createNewCart(String cartId) {
         Cart newCart = Cart.builder()
                 .id(cartId)
-                .userId(cartId) // Using cartId as userId for now
+                .userId(cartId) 
                 .items(new ArrayList<>())
                 .status(CartStatus.ACTIVE)
                 .createdAt(LocalDateTime.now())
