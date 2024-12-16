@@ -83,13 +83,12 @@ cmd.exe /c kafka-cleanup.bat
 
 #### Endpoints da API
 1. Criar Pagamento
+```http
+POST http://localhost:8083/api/v1/payments
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
-- POST http://localhost:8083/api/v1/payments
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
-
-- Requisição para Cartão de Crédito:
-```
+Requisição para Cartão de Crédito:
 {
     "paymentType": "CREDIT_CARD",
     "cardNumber": "4111111111111111",
@@ -118,14 +117,13 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 2. Criar Pagamento
-
-- POST http://localhost:8083/api/v1/payments
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+POST http://localhost:8083/api/v1/payments
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Requisição para Cartão de Débito:
 
-```
 {
     "paymentType": "DEBIT_CARD",
     "cardNumber": "4111111111111111",
@@ -153,14 +151,13 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 3. Criar Pagamento
-
-- POST http://localhost:8083/api/v1/payments
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+POST http://localhost:8083/api/v1/payments
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Requisição para Cartão de Boleto:
 
-```
 {
 "paymentType": "BOLETO",
 "boletoNumber": "34191790010104351004791020150008291070026000",
@@ -189,14 +186,13 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 4. Criar Pagamento
-
-- POST http://localhost:8083/api/v1/payments
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+POST http://localhost:8083/api/v1/payments
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Requisição para Pix:
 
-```
 {
 "paymentType": "PIX",
 "pixKey": "emerson_tecno@hotmail.com",
@@ -223,15 +219,15 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 5. Listar Pagamento Processados
-
-- Get http://localhost:8083/api/v1/payments
-- Paginação: http://localhost:8083/api/v1/payments?page=2&size=1
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+Get http://localhost:8083/api/v1/payments
+Paginação: http://localhost:8083/api/v1/payments?page=2&size=1
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Requisição para Retorno de Pagamento Processados:
 
-```
+
 {
     "content": [
         {
@@ -301,14 +297,14 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 6. Requisição Reembolso de Pagamento
-
-- Post http://localhost:8083/api/v1/payments/2285dad8-cf53-4ae2-891a-4e627d11c5e6/refund
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+Post http://localhost:8083/api/v1/payments/2285dad8-cf53-4ae2-891a-4e627d11c5e6/refund
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Reembolso de Pagamento:
 
-```
+
 {
     "id": "2285dad8-cf53-4ae2-891a-4e627d11c5e6",
     "amount": 180.00,
@@ -317,14 +313,13 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 7. Requisição Cancelar de Pagamento
-
-- Post http://localhost:8083/api/v1/payments/01395811-d3f4-4bb8-812c-de84210396cb/cancel
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+Post http://localhost:8083/api/v1/payments/01395811-d3f4-4bb8-812c-de84210396cb/cancel
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
-```
 {
     "id": "01395811-d3f4-4bb8-812c-de84210396cb",
     "amount": 180.00,
@@ -335,14 +330,13 @@ cmd.exe /c kafka-cleanup.bat
 ```
 
 8. Requisição Pagamento por ID
-
-- Get http://localhost:8083/api/v1/payments/2285dad8-cf53-4ae2-891a-4e627d11c5e6
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+Get http://localhost:8083/api/v1/payments/2285dad8-cf53-4ae2-891a-4e627d11c5e6
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
-```
 {
     "id": "2285dad8-cf53-4ae2-891a-4e627d11c5e6",
     "amount": 180.00,
@@ -352,14 +346,13 @@ cmd.exe /c kafka-cleanup.bat
 
 
 9. Requisição Pedido por ID
-
-- Get http://localhost:8083/api/v1/payments/order/order123
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+Get http://localhost:8083/api/v1/payments/order/order123
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
-```
 [
     {
         "id": "01395811-d3f4-4bb8-812c-de84210396cb",
@@ -442,13 +435,13 @@ cmd.exe /c kafka-cleanup.bat
 
 10. Requisição Cliente por ID
 
-- Get http://localhost:8083/api/v1/payments/customer/550e8400-e29b-41d4-a716-446655440000
-- Content-Type: application/json
-- Authorization: Basic Auth:  admin admin
+```http
+Get http://localhost:8083/api/v1/payments/customer/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
-```
 [
     {
         "id": "01395811-d3f4-4bb8-812c-de84210396cb",
