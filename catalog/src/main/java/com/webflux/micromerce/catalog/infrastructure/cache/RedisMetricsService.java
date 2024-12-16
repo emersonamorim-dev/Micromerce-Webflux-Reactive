@@ -33,16 +33,16 @@ public class RedisMetricsService {
 
     public Mono<Void> recordMetric(String key, Object value) {
         if (redisTemplate == null) {
-            logger.debug("Skipping metric recording as Redis is not available: key={}", key);
+            logger.debug("Ignorando a gravação métrica porque o Redis não está disponível: key={}", key);
             return Mono.empty();
         }
 
         return redisTemplate.opsForValue()
             .set(key, value)
             .timeout(TIMEOUT)
-            .doOnSuccess(success -> logger.debug("Successfully recorded metric: key={}", key))
+            .doOnSuccess(success -> logger.debug("Métrica registrada com sucesso: key={}", key))
             .onErrorResume(error -> {
-                logger.error("Failed to record metric: key={}, error={}", key, error.getMessage());
+                logger.error("Falha ao registrar métrica: key={}, error={}", key, error.getMessage());
                 return Mono.empty();
             })
             .then();
@@ -50,23 +50,23 @@ public class RedisMetricsService {
 
     public Mono<Object> getMetric(String key) {
         if (redisTemplate == null) {
-            logger.debug("Skipping metric retrieval as Redis is not available: key={}", key);
+            logger.debug("Ignorando a recuperação de métricas porque o Redis não está disponível: key={}", key);
             return Mono.empty();
         }
 
         return redisTemplate.opsForValue()
             .get(key)
             .timeout(TIMEOUT)
-            .doOnSuccess(value -> logger.debug("Successfully retrieved metric: key={}", key))
+            .doOnSuccess(value -> logger.debug("Métrica recuperada com sucesso: key={}", key))
             .onErrorResume(error -> {
-                logger.error("Failed to retrieve metric: key={}, error={}", key, error.getMessage());
+                logger.error("Falha ao recuperar métrica: key={}, error={}", key, error.getMessage());
                 return Mono.empty();
             });
     }
 
     public Mono<Void> monitorRedisMetrics() {
         if (redisConnection == null) {
-            logger.debug("Skipping Redis monitoring as connection is not available");
+            logger.debug("Ignorando o monitoramento do Redis porque a conexão não está disponível");
             return Mono.empty();
         }
 
@@ -75,7 +75,7 @@ public class RedisMetricsService {
             .timeout(TIMEOUT)
             .doOnNext(metrics -> kibanaMetricsSender.sendMetricsToKibana("Redis", metrics))
             .onErrorResume(error -> {
-                logger.error("Failed to monitor Redis metrics: error={}", error.getMessage());
+                logger.error("Falha ao monitorar métricas do Redis: error={}", error.getMessage());
                 return Mono.empty();
             })
             .then();
