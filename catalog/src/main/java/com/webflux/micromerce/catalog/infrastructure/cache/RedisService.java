@@ -28,42 +28,42 @@ public class RedisService {
         return Mono.fromCallable(() -> objectMapper.writeValueAsString(product))
                 .flatMap(productJson -> redisTemplate.opsForValue().set(key, productJson, CACHE_DURATION))
                 .then()
-                .doOnSuccess(unused -> log.debug("Product successfully cached with key: {}", key))
-                .doOnError(error -> log.error("Error caching product with key {}: {}", key, error.getMessage()))
+                .doOnSuccess(unused -> log.debug("Produto armazenado em cache com sucesso com chave: {}", key))
+                .doOnError(error -> log.error("Erro ao armazenar em cache o produto com a chave {}: {}", key, error.getMessage()))
                 .onErrorResume(e -> Mono.empty());
     }
 
     public Mono<ProductResponse> getProduct(Long id) {
         String key = PRODUCT_KEY_PREFIX + id;
-        log.debug("Retrieving product from Redis cache with key: {}", key);
+        log.debug("Recuperando produto do cache Redis com chave: {}", key);
         
         return redisTemplate.opsForValue().get(key)
                 .flatMap(productJson -> Mono.fromCallable(() -> objectMapper.readValue(productJson, ProductResponse.class)))
                 .doOnSuccess(product -> {
                     if (product != null) {
-                        log.debug("Product found in cache: {}", product);
+                        log.debug("Produto encontrado no cache: {}", product);
                     } else {
-                        log.debug("Product not found in cache for key: {}", key);
+                        log.debug("Produto não encontrado no cache para chave: {}", key);
                     }
                 })
-                .doOnError(error -> log.error("Error retrieving product from cache with key {}: {}", key, error.getMessage()))
+                .doOnError(error -> log.error("Erro ao recuperar produto do cache com chave {}: {}", key, error.getMessage()))
                 .onErrorResume(e -> Mono.empty());
     }
 
     public Mono<Boolean> deleteProduct(Long id) {
         String key = PRODUCT_KEY_PREFIX + id;
-        log.debug("Deleting product from Redis cache with key: {}", key);
+        log.debug("Excluindo produto do cache do Redis com chave: {}", key);
         
         return redisTemplate.delete(key)
                 .map(count -> count > 0)
                 .doOnSuccess(deleted -> {
                     if (deleted) {
-                        log.debug("Product successfully deleted from cache with key: {}", key);
+                        log.debug("Produto excluído com sucesso do cache com chave: {}", key);
                     } else {
-                        log.debug("Product not found in cache for deletion with key: {}", key);
+                        log.debug("Produto não encontrado no cache para exclusão com chave: {}", key);
                     }
                 })
-                .doOnError(error -> log.error("Error deleting product from cache with key {}: {}", key, error.getMessage()))
+                .doOnError(error -> log.error("Erro ao excluir produto do cache com chave {}: {}", key, error.getMessage()))
                 .onErrorResume(e -> Mono.just(false));
     }
 }
