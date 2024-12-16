@@ -85,8 +85,8 @@ cmd.exe /c kafka-cleanup.bat
 1. Criar Pagamento
 
 - POST http://localhost:8083/api/v1/payments
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Requisição para Cartão de Crédito:
 ```
@@ -120,8 +120,8 @@ Authorization: Basic Auth:  admin admin
 2. Criar Pagamento
 
 - POST http://localhost:8083/api/v1/payments
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Requisição para Cartão de Débito:
 
@@ -155,8 +155,8 @@ Authorization: Basic Auth:  admin admin
 3. Criar Pagamento
 
 - POST http://localhost:8083/api/v1/payments
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Requisição para Cartão de Boleto:
 
@@ -191,8 +191,8 @@ Authorization: Basic Auth:  admin admin
 4. Criar Pagamento
 
 - POST http://localhost:8083/api/v1/payments
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Requisição para Pix:
 
@@ -226,8 +226,8 @@ Authorization: Basic Auth:  admin admin
 
 - Get http://localhost:8083/api/v1/payments
 - Paginação: http://localhost:8083/api/v1/payments?page=2&size=1
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Requisição para Retorno de Pagamento Processados:
 
@@ -303,8 +303,8 @@ Authorization: Basic Auth:  admin admin
 6. Requisição Reembolso de Pagamento
 
 - Post http://localhost:8083/api/v1/payments/2285dad8-cf53-4ae2-891a-4e627d11c5e6/refund
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Reembolso de Pagamento:
 
@@ -319,8 +319,8 @@ Authorization: Basic Auth:  admin admin
 7. Requisição Cancelar de Pagamento
 
 - Post http://localhost:8083/api/v1/payments/01395811-d3f4-4bb8-812c-de84210396cb/cancel
-Content-Type: application/json
-Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
@@ -337,8 +337,8 @@ Authorization: Basic Auth:  admin admin
 8. Requisição Pagamento por ID
 
 - Get http://localhost:8083/api/v1/payments/2285dad8-cf53-4ae2-891a-4e627d11c5e6
-  Content-Type: application/json
-  Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
@@ -354,8 +354,8 @@ Authorization: Basic Auth:  admin admin
 9. Requisição Pedido por ID
 
 - Get http://localhost:8083/api/v1/payments/order/order123
-  Content-Type: application/json
-  Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
@@ -443,8 +443,8 @@ Authorization: Basic Auth:  admin admin
 10. Requisição Cliente por ID
 
 - Get http://localhost:8083/api/v1/payments/customer/550e8400-e29b-41d4-a716-446655440000
-  Content-Type: application/json
-  Authorization: Basic Auth:  admin admin
+- Content-Type: application/json
+- Authorization: Basic Auth:  admin admin
 
 - Retorno da Requisição para Cancelar de Pagamento:
 
