@@ -6,6 +6,11 @@ Utilizando tecnologias de ponta como Java 21, Spring Boot e Spring WebFlux, a ap
 
 Este projeto não apenas demonstra a aplicação de princípios de arquitetura de microserviços, mas também ilustra a importância da programação reativa na construção de sistemas modernos que atendem às expectativas dos usuários em termos de velocidade e eficiência.
 
+#### Vídeo Aplicação rodando:
+
+https://youtu.be/NslmY3fqyqY?feature=shared
+
+
 #### Estrutura do Projeto
 
 - **cart**: Microserviço responsável pela gestão de carrinhos de compras.
