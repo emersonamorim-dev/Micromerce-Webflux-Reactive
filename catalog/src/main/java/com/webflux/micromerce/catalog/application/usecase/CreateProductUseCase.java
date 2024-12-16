@@ -30,16 +30,16 @@ public class CreateProductUseCase {
                 .doOnSuccess(response -> {
                     log.debug("Product created successfully: {}", response);
                     productEventProducer.sendProductEvent(response)
-                            .doOnSuccess(v -> log.debug("Product event sent successfully"))
-                            .doOnError(error -> log.error("Error sending product event: {}", error.getMessage()))
+                            .doOnSuccess(v -> log.debug("Evento de produto enviado com sucesso"))
+                            .doOnError(error -> log.error("Erro ao enviar evento do produto: {}", error.getMessage()))
                             .subscribe();
                     
                     redisService.saveProduct(response)
-                            .doOnSuccess(v -> log.debug("Product cached successfully"))
-                            .doOnError(error -> log.error("Error caching product: {}", error.getMessage()))
+                            .doOnSuccess(v -> log.debug("Produto armazenado em cache com sucesso"))
+                            .doOnError(error -> log.error("Erro ao armazenar em cache o produto: {}", error.getMessage()))
                             .subscribe();
                 })
-                .doOnError(error -> log.error("Error creating product: {}", error.getMessage()));
+                .doOnError(error -> log.error("Erro ao criar produto: {}", error.getMessage()));
     }
 
     private Product mapToProduct(ProductRequest request) {
