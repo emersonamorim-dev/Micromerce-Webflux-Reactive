@@ -56,7 +56,7 @@ A Arquitetura segue o padrão de Clean Architecture e Arquitetura hexagonal (por
 1. Clone o repositório:
 ```
 git clone [repository-url]
-cd Micromerce-Webflux-Reactive/cart
+cd Micromerce-Webflux-Reactive/payment
 ```
 
 2. Execute com Docker Compose:
